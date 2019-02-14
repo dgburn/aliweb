@@ -1,32 +1,13 @@
-var http = require('http')
-var fs = require('fs')
 
-var httpServer = http.createServer(function(req, res) {
-  var url = req.url === '/' ? 'index.html' : req.url
+var express = require('express')
+var app = express()
 
-  fs.readFile(`./${url}`, 'utf-8', function(err, data) {
-    if (err) {
-      res.write('404,您访问的页面不存在')
-      res.end()
-    } else {
-      res.write(data)
-      res.end()
-    }
-  })
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/' + 'index.html')
 })
 
-var httpServer = http.createServer(function(req, res) {
-  var url = req.url === '/weapp-cropper-preview/' ? 'index.html' : req.url
-
-  fs.readFile(`./${url}`, 'utf-8', function(err, data) {
-    if (err) {
-      res.write('404,您访问的页面不存在')
-      res.end()
-    } else {
-      res.write(data)
-      res.end()
-    }
-  })
+app.get('/weapp-cropper', function (req, res) {
+  res.sendFile(__dirname + '/weapp-cropper-preview/' + 'index.html')
 })
 
-httpServer.listen(3000)
+app.listen(3000)
