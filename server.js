@@ -10,4 +10,5 @@ app.get('/weapp-cropper', function (req, res) {
   res.sendFile(__dirname + '/weapp-cropper-preview/' + 'index.html')
 })
 
+console.log('启动成功')
 app.listen(3000)
