@@ -53,6 +53,6 @@ app.get('/', function(req, res, next) {
 })
 // app.use(express.static("weapp-cropper-preview"));//关键是这一句，我的目录是html的目录
  
-app.listen(3000, ()=>{
+app.listen(3000, function () {
   console.log("服务启动成功。");
 })
