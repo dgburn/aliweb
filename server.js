@@ -10,6 +10,6 @@ app.get('/cropper', function(req, res, next) {
 })
 app.use('/cropper-static', express.static(__dirname + '/weapp-cropper-preview'))
  
-app.listen(3000, function () {
+app.listen(80, function () {
   console.log("服务启动成功。")
 })
