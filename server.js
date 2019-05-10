@@ -1,10 +1,14 @@
 
 var express = require("express")
 var app = express();
- 
-app.get('/', function(req, res, next) {
-  res.sendFile(__dirname + '/index.html')
-})
+
+// app.get('/', function(req, res, next) {
+//   res.sendFile(__dirname + '/index.html')
+// })
+app.use('/', express.static(__dirname + '/template'))
+// app.get('/', function(req, res, next) {
+//   res.sendFile(__dirname + '/template/index.html')
+// })
 app.get('/cropper', function(req, res, next) {
   res.sendFile(__dirname + '/weapp-cropper-preview/index.html')
 })
