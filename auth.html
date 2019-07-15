@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>微信授权</title>
+</head>
+
+<body>
+  <script>
+
+    var GWC = {
+      urlParams: {},
+      parseQuery: function (url) {
+        let urlTemp = url || window.location.href;
+        if (urlTemp.indexOf('?') === -1) return {};
+        urlTemp = urlTemp.split('?')[1];
+        var res = {};
+
+        var query = urlTemp.trim().replace(/^(\?|#|&)/, '');
+        if (!query) {
+          return res
+        }
+
+        query.split('&').forEach(function (param) {
+          var parts = param.replace(/\+/g, ' ').split('=');
+          var key = decodeURIComponent(parts.shift());
+          var val = parts.length > 0
+            ? decodeURIComponent(parts.join('='))
+            : null;
+
+          if (res[key] === undefined) {
+            res[key] = val;
+          } else if (Array.isArray(res[key])) {
+            res[key].push(val);
+          } else {
+            res[key] = [res[key], val];
+          }
+        });
+
+        GWC.urlParams = res
+      },
+      stringifyQuery: function (obj) {
+        var res = obj ? Object.keys(obj).map(function (key) {
+          var val = obj[key];
+
+          if (val === undefined) {
+            return ''
+          }
+
+          if (val === null) {
+            return encodeURIComponent(key)
+          }
+
+          if (Array.isArray(val)) {
+            var result = [];
+            val.forEach(function (val2) {
+              if (val2 === undefined) {
+                return
+              }
+              if (val2 === null) {
+                result.push(encodeURIComponent(key));
+              } else {
+                result.push(encodeURIComponent(key) + '=' + encodeURIComponent(val2));
+              }
+            });
+            return result.join('&')
+          }
+
+          return encodeURIComponent(key) + '=' + encodeURIComponent(val)
+        }).filter(function (x) { return x.length > 0; }).join('&') : null;
+        return res
+      },
+      doRedirect: function () {
+        var code = GWC.urlParams['code'];
+        var appId = GWC.urlParams['appid'];
+        var scope = GWC.urlParams['scope'] || 'snsapi_base';
+        var state = GWC.urlParams['state'];
+        var redirectUri;
+
+        if (!code) {
+          //第一步，没有拿到code，跳转至微信授权页面获取code
+          var paramStr = GWC.stringifyQuery({
+            'appid': appId,
+            'redirect_uri': encodeURIComponent(location.href),
+            'response_type': 'code',
+            'scope': scope,
+            'state': state,
+          })
+          redirectUri = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + paramStr + '#wechat_redirect'
+        } else {
+          //第二步，从微信授权页面跳转回来，已经获取到了code，再次跳转到实际所需页面
+          var paramStr = GWC.stringifyQuery({
+            redirect_uri: GWC.urlParams.redirect_uri,
+            code: GWC.urlParams.code,
+            state: GWC.urlParams.state
+          })
+          redirectUri = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + paramStr + '#wechat_redirect'
+        }
+
+        location.href = redirectUri;
+      }
+    };
+
+    GWC.parseQuery();
+    GWC.doRedirect()
+  </script>
+</body>
+
+</html>

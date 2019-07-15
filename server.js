@@ -20,7 +20,7 @@
 
 
 'use strict'
-
+const fs = require('fs');
 var Koa = require('koa')
 
 var sha1 = require('sha1')
@@ -35,24 +35,26 @@ var config = {
 
 var app = new Koa();
 
-app.use(function *(next) {
-    console.log(this.query)
+
+const main = ctx => {
+  if (ctx.request.path == '/auth') {
+    ctx.response.type = 'html';
+    ctx.response.body = fs.createReadStream('./auth.html');
+  } else if (ctx.request.path == '/') {
+    console.log(ctx.request.query)
+    var query = ctx.request.query
     var token = config.wechat.token
-    var signature = this.query.signature
-    var nonce = this.query.nonce
-    var timestamp = this.query.timestamp
-    var echostr = this.query.echostr
+    var signature = query.signature
+    var nonce = query.nonce
+    var timestamp = query.timestamp
+    var echostr = query.echostr
     var str = [token, timestamp, nonce].sort().join('')
     var sha = sha1(str)
+	  return echostr
+  }
+}
 
-    if (sha === signature) {
-        this.body = echostr + ''
-    } else {
-        this.body = 'wrong'
-    }
-	return this.body
-})
-
+app.use(main);
 app.listen(80)
 
 console.log('Listening 80')
