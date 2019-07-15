@@ -79,7 +79,6 @@
         var redirectUri;
 
         if (!code) {
-            alert(1)
           //第一步，没有拿到code，跳转至微信授权页面获取code
           var paramStr = GWC.stringifyQuery({
             appid: appId,
@@ -88,8 +87,8 @@
             scope: scope,
             state: state,
           })
-          console.log(paramStr)
           redirectUri = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + paramStr + '#wechat_redirect'
+          alert(redirectUri)
         } else {
             alert('2')
           //第二步，从微信授权页面跳转回来，已经获取到了code，再次跳转到实际所需页面
