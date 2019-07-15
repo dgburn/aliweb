@@ -49,7 +49,7 @@
           }
 
           if (val === null) {
-            return key
+            return encodeURIComponent(key)
           }
 
           if (Array.isArray(val)) {
@@ -59,15 +59,15 @@
                 return
               }
               if (val2 === null) {
-                result.push(key);
+                result.push(encodeURIComponent(key));
               } else {
-                result.push(key + '=' + val2);
+                result.push(encodeURIComponent(key) + '=' + encodeURIComponent(val2));
               }
             });
             return result.join('&')
           }
 
-          return key + '=' + val
+          return encodeURIComponent(key) + '=' + encodeURIComponent(val)
         }).filter(function (x) { return x.length > 0; }).join('&') : null;
         return res
       },
@@ -82,14 +82,12 @@
           //第一步，没有拿到code，跳转至微信授权页面获取code
           var paramStr = GWC.stringifyQuery({
             appid: appId,
-            redirect_uri: encodeURIComponent('http://www.dgburn.com/auth?redirectUri=') + encodeURIComponent(GWC.urlParams.redirectUri),
+            redirect_uri: 'http://www.dgburn.com/auth?redirectUri=' + GWC.urlParams.redirectUri,
             response_type: 'code',
             scope: scope,
             state: state,
           })
           redirectUri = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + paramStr + '#wechat_redirect'
-          console.log('redirectUri===:', redirectUri)
-          location.href = redirectUri;
         } else {
           //第二步，从微信授权页面跳转回来，已经获取到了code，再次跳转到实际所需页面
           var paramStr = GWC.stringifyQuery({
@@ -97,9 +95,8 @@
             state: GWC.urlParams.state
           })
           redirectUri = GWC.urlParams.redirectUri + '?' + paramStr
-          console.log('redirectUri===:', redirectUri)
         }
-        // location.href = redirectUri;
+        location.href = redirectUri;
       }
     };
 
