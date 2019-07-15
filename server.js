@@ -37,7 +37,6 @@ var app = new Koa();
 
 app.use(function *(next) {
     console.log(this.query)
-
     var token = config.wechat.token
     var signature = this.query.signature
     var nonce = this.query.nonce
@@ -51,6 +50,7 @@ app.use(function *(next) {
     } else {
         this.body = 'wrong'
     }
+	return this.body
 })
 
 app.listen(80)
