@@ -37,6 +37,7 @@ var app = new Koa();
 
 
 const main = ctx => {
+  console.log(ctx.request.path)
   if (ctx.request.path == '/auth') {
     ctx.response.type = 'html';
     ctx.response.body = fs.createReadStream('./auth.html');
@@ -50,6 +51,7 @@ const main = ctx => {
     var echostr = query.echostr
     var str = [token, timestamp, nonce].sort().join('')
     var sha = sha1(str)
+    ctx.response.body = echostr + ''
 	  return echostr
   }
 }
