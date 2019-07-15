@@ -83,7 +83,7 @@
           var paramStr = GWC.stringifyQuery({
             appid: appId,
             redirect_uri: encodeURIComponent(GWC.urlParams.redirect_uri),
-            response_type: code,
+            response_type: 'code',
             scope: scope,
             state: state,
           })
