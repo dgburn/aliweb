@@ -82,7 +82,7 @@
           //第一步，没有拿到code，跳转至微信授权页面获取code
           var paramStr = GWC.stringifyQuery({
             appid: appId,
-            redirect_uri: encodeURIComponent('http://www.dgburn.com/auth'),
+            redirect_uri: encodeURIComponent('http://www.dgburn.com/auth?redirect_uri=') + GWC.urlParams.redirect_uri,
             response_type: 'code',
             scope: scope,
             state: state,
@@ -95,7 +95,7 @@
             code: GWC.urlParams.code,
             state: GWC.urlParams.state
           })
-          redirectUri = 'http://www.dgburn.com/auth?' + paramStr
+          redirectUri = GWC.urlParams.redirect_uri + '?' + paramStr
         }
         location.href = redirectUri;
       }
