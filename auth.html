@@ -82,9 +82,9 @@
           //第一步，没有拿到code，跳转至微信授权页面获取code
           var paramStr = GWC.stringifyQuery({
             appid: appId,
-            redirect_uri: encodeURIComponent(GWC.urlParams.redirect_uri),
-            response_type: 'code',
+            redirect_uri: encodeURIComponent(location.href),
             scope: scope,
+            response_type: 'code',
             state: state,
           })
           redirectUri = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + paramStr + '#wechat_redirect'
