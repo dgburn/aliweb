@@ -95,7 +95,7 @@
             code: GWC.urlParams.code,
             state: GWC.urlParams.state
           })
-          redirectUri = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + paramStr + '#wechat_redirect'
+          redirectUri = GWC.urlParams.redirect_uri + '?' + paramStr
         }
 
         location.href = redirectUri;
