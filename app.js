@@ -1,24 +1,3 @@
-
-// var express = require("express")
-// var app = express();
-
-// // app.get('/', function(req, res, next) {
-// //   res.sendFile(__dirname + '/index.html')
-// // })
-// app.use('/', express.static(__dirname + '/template'))
-// // app.get('/', function(req, res, next) {
-// //   res.sendFile(__dirname + '/template/index.html')
-// // })
-// app.get('/cropper', function(req, res, next) {
-//   res.sendFile(__dirname + '/weapp-cropper-preview/index.html')
-// })
-// app.use('/cropper-static', express.static(__dirname + '/weapp-cropper-preview'))
- 
-// app.listen(80, function () {
-//   console.log("服务启动成功。")
-// })
-
-
 'use strict'
 
 var Koa = require('koa')
@@ -53,6 +32,6 @@ app.use(function *(next) {
     }
 })
 
-app.listen(80)
+app.listen(8991)
 
-console.log('Listening 80')
+console.log('Listening 8991')
