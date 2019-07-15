@@ -95,7 +95,7 @@
             code: GWC.urlParams.code,
             state: GWC.urlParams.state
           })
-          redirectUri = GWC.urlParams.redirect_uri + '?' + paramStr
+          redirectUri = 'http://www.dgburn.com/auth?' + paramStr
         }
         location.href = redirectUri;
       }
